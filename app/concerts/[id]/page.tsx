@@ -32,22 +32,36 @@ const concertImages = [
     "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=2070&auto=format&fit=crop",
 ];
 
-function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    });
+function formatDate(dateString: string | null | undefined): string {
+    if (!dateString) return "-";
+    try {
+        const timestamp = parseInt(dateString, 10);
+        const date = !isNaN(timestamp) ? new Date(timestamp) : new Date(dateString);
+        if (isNaN(date.getTime())) return "-";
+        return date.toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        });
+    } catch {
+        return "-";
+    }
 }
 
-function formatTime(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString("id-ID", {
-        hour: "2-digit",
-        minute: "2-digit",
-    });
+function formatTime(dateString: string | null | undefined): string {
+    if (!dateString) return "-";
+    try {
+        const timestamp = parseInt(dateString, 10);
+        const date = !isNaN(timestamp) ? new Date(timestamp) : new Date(dateString);
+        if (isNaN(date.getTime())) return "-";
+        return date.toLocaleTimeString("id-ID", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+    } catch {
+        return "-";
+    }
 }
 
 function formatPrice(price: number): string {
@@ -193,9 +207,6 @@ export default function ConcertDetailPage({ params }: { params: Promise<{ id: st
                                 <ArrowLeft className="w-4 h-4 mr-2" />
                                 Kembali ke Daftar Konser
                             </Link>
-                            <Badge variant="secondary" className="mb-3">
-                                {concert.status}
-                            </Badge>
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-lg">
                                 {concert.title}
                             </h1>
@@ -209,37 +220,42 @@ export default function ConcertDetailPage({ params }: { params: Promise<{ id: st
                         {/* Left Column - Details */}
                         <div className="lg:col-span-2 space-y-6">
                             {/* Info Cards */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="space-y-4">
+                                {/* Date and Time Row */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <Card className="p-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
+                                                <Calendar className="w-5 h-5 text-primary" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-muted-foreground">Tanggal</p>
+                                                <p className="font-semibold">{formatDate(concert.startAt)}</p>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                    <Card className="p-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
+                                                <Clock className="w-5 h-5 text-primary" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-muted-foreground">Waktu</p>
+                                                <p className="font-semibold">{formatTime(concert.startAt)} WIB</p>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                </div>
+
+                                {/* Location - Full Width */}
                                 <Card className="p-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-lg bg-primary/10">
-                                            <Calendar className="w-5 h-5 text-primary" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-muted-foreground">Tanggal</p>
-                                            <p className="font-semibold">{formatDate(concert.startAt)}</p>
-                                        </div>
-                                    </div>
-                                </Card>
-                                <Card className="p-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-lg bg-primary/10">
-                                            <Clock className="w-5 h-5 text-primary" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-muted-foreground">Waktu</p>
-                                            <p className="font-semibold">{formatTime(concert.startAt)} WIB</p>
-                                        </div>
-                                    </div>
-                                </Card>
-                                <Card className="p-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-lg bg-primary/10">
+                                        <div className="p-2 rounded-lg bg-primary/10 flex-shrink-0">
                                             <MapPin className="w-5 h-5 text-primary" />
                                         </div>
                                         <div>
                                             <p className="text-sm text-muted-foreground">Lokasi</p>
-                                            <p className="font-semibold line-clamp-1">{concert.venue}</p>
+                                            <p className="font-semibold">{concert.venue}</p>
                                         </div>
                                     </div>
                                 </Card>
