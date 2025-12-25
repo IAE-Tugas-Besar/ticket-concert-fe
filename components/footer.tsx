@@ -1,7 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import {
-  Instagram,
-  Twitter,
   Ticket,
   Mail,
   Phone,
@@ -93,7 +91,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} ConcertTicketing Indonesia. All rights reserved.
           </p>
 
-          
+
         </div>
       </div>
     </footer>

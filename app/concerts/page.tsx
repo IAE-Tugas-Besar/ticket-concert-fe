@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -78,7 +78,26 @@ function formatPrice(price: number): string {
     }).format(price);
 }
 
+// Wrapper component with Suspense for useSearchParams
 export default function ConcertsPage() {
+    return (
+        <Suspense fallback={
+            <>
+                <Navbar />
+                <main className="min-h-screen flex items-center justify-center">
+                    <div className="flex flex-col items-center">
+                        <Loader2 className="w-12 h-12 animate-spin text-primary mb-4" />
+                        <p className="text-muted-foreground">Memuat konser...</p>
+                    </div>
+                </main>
+            </>
+        }>
+            <ConcertsPageContent />
+        </Suspense>
+    );
+}
+
+function ConcertsPageContent() {
     const searchParams = useSearchParams();
     const initialSearch = searchParams.get("search") || "";
 

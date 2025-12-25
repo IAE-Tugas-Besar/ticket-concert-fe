@@ -121,6 +121,7 @@ export default function OrdersPage() {
         if (user) {
             fetchOrders();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authLoading, isAuthenticated, user, router]);
 
     async function fetchOrders() {

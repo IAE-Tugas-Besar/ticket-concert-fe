@@ -3,8 +3,6 @@ import {
   Zap,
   Users,
   Star,
-  Bell,
-  Headphones,
   Info,
 } from "lucide-react";
 import Image from "next/image";

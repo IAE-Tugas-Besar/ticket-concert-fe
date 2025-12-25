@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/components/footer";
 import {
@@ -55,13 +55,7 @@ function formatTime(dateString: string | null | undefined): string {
     }
 }
 
-function formatPrice(price: number): string {
-    return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-    }).format(price);
-}
+// Price formatting removed - not used in this component
 
 const statusConfig = {
     ISSUED: {
@@ -97,6 +91,7 @@ export default function MyTicketsPage() {
         if (user) {
             fetchTickets();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authLoading, isAuthenticated, user, router]);
 
     async function fetchTickets() {

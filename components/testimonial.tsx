@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// Badge import removed - not used
 import { Star, CheckCircle2 } from "lucide-react";
 
 const testimonials = [
@@ -94,8 +94,8 @@ const Testimonial = () => {
                     <Star
                       key={i}
                       className={`w-3.5 h-3.5 ${i < item.rating
-                          ? "fill-orange-400 text-orange-400"
-                          : "fill-muted text-muted"
+                        ? "fill-orange-400 text-orange-400"
+                        : "fill-muted text-muted"
                         }`}
                     />
                   ))}
@@ -103,7 +103,7 @@ const Testimonial = () => {
               </CardHeader>
               <CardContent className="flex-1">
                 <p className="text-sm leading-relaxed text-foreground/80">
-                  "{item.testimonial}"
+                  &ldquo;{item.testimonial}&rdquo;
                 </p>
               </CardContent>
               <CardFooter className="pt-0 pb-4 px-6">

@@ -7,7 +7,6 @@ import { Navbar } from "@/components/navbar";
 import {
     CheckCircle2,
     Ticket,
-    Download,
     Mail,
     ArrowRight,
     PartyPopper,

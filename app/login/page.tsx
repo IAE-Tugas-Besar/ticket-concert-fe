@@ -11,7 +11,7 @@ import { useAuth } from "@/lib/auth-context";
 
 export default function LoginPage() {
     const router = useRouter();
-    const { isAuthenticated, isLoading: authLoading, login } = useAuth();
+    const { user, isAuthenticated, isLoading: authLoading, login } = useAuth();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -22,10 +22,14 @@ export default function LoginPage() {
 
     // Redirect if already logged in
     useEffect(() => {
-        if (!authLoading && isAuthenticated) {
-            router.push("/concerts");
+        if (!authLoading && isAuthenticated && user) {
+            if (user.role === "ADMIN") {
+                router.push("/admin");
+            } else {
+                router.push("/concerts");
+            }
         }
-    }, [authLoading, isAuthenticated, router]);
+    }, [authLoading, isAuthenticated, user, router]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,8 +59,12 @@ export default function LoginPage() {
             // Use auth context to login (this updates state and localStorage)
             login(data.data.token, data.data.user);
 
-            // Redirect to concerts page
-            router.push("/concerts");
+            // Redirect based on role
+            if (data.data.user.role === "ADMIN") {
+                router.push("/admin");
+            } else {
+                router.push("/concerts");
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : "Terjadi kesalahan");
         } finally {

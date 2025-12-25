@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { User, LogOut, Ticket, ChevronDown, LayoutDashboard, ShoppingBag, Settings } from "lucide-react";
+import { LogOut, Ticket, ChevronDown, LayoutDashboard, ShoppingBag, Settings } from "lucide-react";
 import { Logo } from "./logo";
 import { NavMenu } from "./nav-menu";
 import { NavigationSheet } from "./navigation-sheet";
